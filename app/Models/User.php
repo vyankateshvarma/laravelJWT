@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use Notifiable,HasFactory;
 
     protected $fillable = [
         'name',
@@ -31,4 +33,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function products()
+    {
+    return $this->hasMany(Product::class);
+    }
+    public function contact(){
+        return $this->hasone(Contact::class);
+    }
+
 }
