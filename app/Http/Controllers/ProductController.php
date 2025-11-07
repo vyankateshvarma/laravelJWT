@@ -23,10 +23,11 @@ class ProductController extends Controller
             "price"=> "required|numeric",
             "image"=> "nullable|string",
             "stock"=> "nullable|integer",
+            "category_id"=> "required|exists:categories,id",
         ]);
-        $data['user_id'] = Auth::id();
+        $data['user_id'] = Auth::id();   //get currently loggined user id
         $product=Product::create($data);
-        return response()->json(["Stored"=>true,"data"=>$data]); 
+        return response()->json(["Stored"=>true,"data"=>$data]);
        }
     public function show($id){
         $product=Product::find($id);

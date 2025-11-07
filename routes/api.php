@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 USE App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CategoryController;
 
 
 Route::group(['prefix' => 'auth'], function ($router) {
@@ -22,7 +23,7 @@ Route::middleware(['auth:api'])->group(function(){
 Route::get('/index', [ProductController::class, 'index']);
 Route::post("/products/{id}", [ProductController::class,"show"]);
 
-Route::middleware(['auth:api'])->group(function() {
+Route::middleware(['auth:api'])->group(function() {  //no need api/auth
     Route::post("/products", [ProductController::class,"store"]);
     Route::put('products/{id}', [ProductController::class ,'update']);
     Route::delete('delete/{id}', [ProductController ::class ,'delete']);
@@ -32,4 +33,9 @@ Route::middleware('auth:api')->group(function (){
     Route::get('/contacts', [ContactController::class, 'index']);
     Route::post('/contacts', [ContactController::class, 'store']);
     Route::get('/contacts/show', [ContactController::class, 'show']);
+});
+Route::middleware('auth:api')->group(function (){
+    Route::get('/category', [CategoryController::class, 'index']);
+    Route::post('/category', [CategoryController::class, 'store']);
+
 });

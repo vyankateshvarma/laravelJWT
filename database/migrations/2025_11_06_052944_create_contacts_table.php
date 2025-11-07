@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('country')->nullable();
 
             // ✅ Correct foreign key
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->unique();
 
             $table->timestamps();
         });

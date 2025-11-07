@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Auth;
 class ContactController extends Controller
 {
     public function index(){
-        $contact=Contact::all();
+        $contact=Contact::with('user:id,name')->get();
         return response()->json($contact);
     }
     public function store(Request $request){
         $data= $request->validate([
             "phone"=> "required",
-            "address"=> "required"
+            "address"=> "required",
+            "city"=>"nullable|string",
+            "country"=> "nullable|string",
             ]);
             $data['user_id']=Auth::id();
             $contact=Contact::create($data);
@@ -36,6 +38,6 @@ class ContactController extends Controller
         }
 
         return response()->json(['contact' => $contact]);
-    } 
+    }
 
 }

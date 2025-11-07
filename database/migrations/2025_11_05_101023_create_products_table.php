@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('stock')->default(0);
 
-            // ✅ Correctly add the foreign key
+            //foreign key
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
 
             $table->timestamps();
         });

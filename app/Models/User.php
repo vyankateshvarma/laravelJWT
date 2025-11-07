@@ -40,5 +40,7 @@ class User extends Authenticatable implements JWTSubject
     public function contact(){
         return $this->hasone(Contact::class);
     }
-
+    public function category(){
+        return $this->hasone(Category::class);
+    }
 }
