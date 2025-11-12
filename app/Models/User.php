@@ -43,4 +43,5 @@ class User extends Authenticatable implements JWTSubject
     public function category(){
         return $this->hasone(Category::class);
     }
+    
 }

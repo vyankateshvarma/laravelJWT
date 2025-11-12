@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CategoryController;
 
 
+
 Route::group(['prefix' => 'auth'], function ($router) {
     Route::post('login', [AuthController::class ,'login']);
     Route::post('register', [AuthController::class ,'register']);
@@ -23,10 +24,14 @@ Route::middleware(['auth:api'])->group(function(){
 Route::get('/index', [ProductController::class, 'index']);
 Route::post("/products/{id}", [ProductController::class,"show"]);
 
+Route::post('/products', [ProductController::class, 'store']);
+Route::get('/show/{id}', [ProductController::class ,'show']);
 Route::middleware(['auth:api'])->group(function() {  //no need api/auth
-    Route::post("/products", [ProductController::class,"store"]);
     Route::put('products/{id}', [ProductController::class ,'update']);
-    Route::delete('delete/{id}', [ProductController ::class ,'delete']);
+    Route::delete('/delete/{id}', [ProductController ::class ,'destroy']);
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::get('/show/{id}', [ProductController::class ,'show']);
+
 });
 
 Route::middleware('auth:api')->group(function (){
