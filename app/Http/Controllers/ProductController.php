@@ -1,19 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Resources\ProductResource;
+
 class ProductController extends Controller
+
 {
     public function index(){
         $products = Product::with('user:id,name')->get();
-        return response()->json([
-        'status' => true,
-        'data' => $products
-    ]);
+        return ProductResource::collection($products);
     }
    public function store(Request $request)
 {
@@ -31,14 +30,15 @@ class ProductController extends Controller
 
     return response()->json([
         "Stored" => true,
-        "data" => $product
+        "data" => new ProductResource($product),
     ], 200);
 }
 
     public function show($id){
         $product=Product::find($id);        
-        if (!$product) return response()->json(["error "=>"Product Not Found"],404);
-        return response()->json($product, 200);
+        if (!$product) 
+            return response()->json(["error "=>"Product Not Found"],404);
+        return new ProductResource($product);
         }
         public function update(Request $request, $id)
 {

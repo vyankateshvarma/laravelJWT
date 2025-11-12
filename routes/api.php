@@ -21,18 +21,19 @@ Route::middleware(['auth:api'])->group(function(){
 
 
 //Product
-Route::get('/index', [ProductController::class, 'index']);
-Route::post("/products/{id}", [ProductController::class,"show"]);
+// Route::get('/index', [ProductController::class, 'index']);
+// Route::post("/products/{id}", [ProductController::class,"show"]);
 
-Route::post('/products', [ProductController::class, 'store']);
-Route::get('/show/{id}', [ProductController::class ,'show']);
-Route::middleware(['auth:api'])->group(function() {  //no need api/auth
-    Route::put('products/{id}', [ProductController::class ,'update']);
-    Route::delete('/delete/{id}', [ProductController ::class ,'destroy']);
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::get('/show/{id}', [ProductController::class ,'show']);
+// Route::post('/products', [ProductController::class, 'store']);
+// Route::get('/show/{id}', [ProductController::class ,'show']);
+// Route::middleware(['auth:api'])->group(function() {  //no need api/auth
+//     Route::put('products/{id}', [ProductController::class ,'update']);
+//     Route::delete('/delete/{id}', [ProductController ::class ,'destroy']);
+//     Route::post('/products', [ProductController::class, 'store']);
+//     Route::get('/show/{id}', [ProductController::class ,'show']);
 
-});
+// });
+Route::apiResource('products', ProductController::class);
 
 Route::middleware('auth:api')->group(function (){
     Route::get('/contacts', [ContactController::class, 'index']);

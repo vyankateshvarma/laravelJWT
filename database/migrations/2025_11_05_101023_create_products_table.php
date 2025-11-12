@@ -15,6 +15,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->default(0); 
             $table->string('image')->nullable();
             $table->integer('stock')->default(0);
+            
 
             //foreign key  
             $table->foreignId(column: 'user_id')->nullable()->constrained('users')->onDelete('cascade');
@@ -24,7 +25,7 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
+    public function down(): void    
     {
         Schema::dropIfExists('products');
     }
