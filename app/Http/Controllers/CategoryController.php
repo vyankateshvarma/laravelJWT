@@ -22,7 +22,32 @@ public function store(Request $request)
         'success' => true,
         'message' => 'Category created successfully!',
         'data' => $category
-    ], 201);
+    ], 200);
+    }
+    public function update(Request $request,$id){
+        $validatedData = $request->validate([
+            'name'=> 'required|string|max:255',
+            ]);
+            $category = Category::find($id);
+            if(!$category){
+                return response()->json([
+                    'success'=> false,
+                    'message'=> 'Failed To Update'
+                    ],404);
+            }
+            $category->update($validatedData);              
+            return response()->json([
+                'success'=> true,
+                'message'=> 'Updated Successfully',
+                'data'=> $category
+                ],0);
+    }
+    public function destroy($id){
+        $category = Category::find($id);
+        $category->delete();
+        return response()->json([
+            'success'=> true,
+            'message'=> 'Deleted Successfully'
+            ],200);
+    }       
 }
-
-}       

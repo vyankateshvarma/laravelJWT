@@ -28,6 +28,14 @@ class ContactController extends Controller
                 "data"=>$data
             ]);
     }
+    public function update(Request $request,$id){
+        $data= $request->validate([
+            "phone"=> "required",
+            "address"=> "required",
+            "city"=>"nullable|string",
+            "country"=> "nullable|string",
+            ]);
+        }
     public function show()
     {
         $user = Auth::user();
@@ -39,5 +47,9 @@ class ContactController extends Controller
 
         return response()->json(['contact' => $contact]);
     }
-
+    public function destroy($id){
+        $contact = Contact::find($id);
+        $contact->delete();
+        return response()->json(['status'=> 'true','message'=> 'Contact Deleted Successfull']);
+    }
 }
