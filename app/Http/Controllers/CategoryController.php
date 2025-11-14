@@ -40,7 +40,7 @@ public function store(Request $request)
                 'success'=> true,
                 'message'=> 'Updated Successfully',
                 'data'=> $category
-                ],0);
+                ],200);
     }
     public function destroy($id){
         $category = Category::find($id);

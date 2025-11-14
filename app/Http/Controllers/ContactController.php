@@ -35,6 +35,12 @@ class ContactController extends Controller
             "city"=>"nullable|string",
             "country"=> "nullable|string",
             ]);
+            $contact=Contact::find($id);
+            $contact->update($data);
+            return response()->json([
+                "status"=> "true",
+                "message"=> "successfull updated contact"
+                ],200);
         }
     public function show()
     {

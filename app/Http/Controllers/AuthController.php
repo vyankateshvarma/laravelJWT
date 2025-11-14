@@ -6,6 +6,7 @@ use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Resources\UserResource;
 class AuthController extends Controller
 {
     // 🔹 Login and get token
@@ -16,9 +17,12 @@ class AuthController extends Controller
         if (! $token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
-    }
+        $user = Auth::user();
+        return response()->json([
+        'data' => new UserResource($user),
+        'token' => $token
+    ]);    
+}
 
     // 🔹 Register user
     public function register(UserRegisterRequest $request)
@@ -31,7 +35,10 @@ class AuthController extends Controller
         ]);
 
         $token=auth('api')->login ($user);
-        return $this->respondWithToken($token);
+        return response()->json([
+        'data' => new UserResource($user),
+        'token' => $token
+    ]);
     }
 
     // 🔹 Get user data (requires token)

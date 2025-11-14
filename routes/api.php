@@ -18,7 +18,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::post('me', [AuthController ::class ,'me']);
     Route::post('refresh', [AuthController::class ,'refresh']);
 });
-
+    Route::apiResource('users', AuthController::class);
 
 //Product
 // Route::get('/index', [ProductController::class, 'index']);
@@ -33,15 +33,19 @@ Route::middleware(['auth:api'])->group(function(){
 //     Route::get('/show/{id}', [ProductController::class ,'show']);
 
 // });
-Route::apiResource('products', ProductController::class);
-
+Route::middleware('auth:api')->group(function (){
+    Route::apiResource('products', ProductController::class);
+});
 Route::middleware('auth:api')->group(function (){
     Route::get('/contacts', [ContactController::class, 'index']);
     Route::post('/contacts', [ContactController::class, 'store']);
     Route::get('/contacts/show', [ContactController::class, 'show']);
+    Route::put('/contacts/{id}', [ContactController::class, 'update']);
+
 });
 Route::middleware('auth:api')->group(function (){
     Route::get('/category', [CategoryController::class, 'index']);
     Route::post('/category', [CategoryController::class, 'store']);
+    Route::put('/category/{id}', [CategoryController::class, 'update']);
 
 });

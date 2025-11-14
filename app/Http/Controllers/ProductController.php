@@ -60,7 +60,7 @@ class ProductController extends Controller
         "success" => true,
         "message" => "Product updated successfully",
         "data" => $product
-    ]);
+    ],200);
 }
 
     public function destroy($id){
