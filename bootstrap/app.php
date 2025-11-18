@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Tymon\JWTAuth\Providers\LaravelServiceProvider; // 👈 add this line
+use Tymon\JWTAuth\Providers\LaravelServiceProvider;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,10 +13,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+
+        // Register route middleware
+        $middleware->alias([
+            'admin'    => \App\Http\Middleware\IsAdmin::class,
+            'auth:api' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+        ]);
     })
     ->withProviders([
-        LaravelServiceProvider::class, // 👈 add this block
+        LaravelServiceProvider::class,
     ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //

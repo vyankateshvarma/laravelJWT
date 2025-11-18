@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,20 +43,20 @@ class ContactController extends Controller
                 "message"=> "successfull updated contact"
                 ],200);
         }
-    public function show()
+    public function show($id)
     {
-        $user = Auth::user();
-        $contact = $user->contact;
-
+        $contact=Contact::find($id);
         if (!$contact) {
             return response()->json(['message' => 'No contact found'], 404);
         }
 
-        return response()->json(['contact' => $contact]);
+        return response()->json(['message'=>'contacts'],200);
     }
     public function destroy($id){
         $contact = Contact::find($id);
-        $contact->delete();
-        return response()->json(['status'=> 'true','message'=> 'Contact Deleted Successfull']);
+        $contact->delete(); 
+        return response()->json([
+            'status'=> true,
+            'message'=> 'Contact Deleted Successfull'],200);
     }
 }

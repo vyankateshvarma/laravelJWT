@@ -11,24 +11,31 @@ class ProductResource extends JsonResource
     {
         $routeName = $request->route() ? $request->route()->getName() : null;
 
+        // For store route
         if ($routeName === 'products.store') {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'price' => $this->price,
-            'message' => 'Product created successfully!',
-        ];
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+                'price' => $this->price,
+                'message' => 'Product created successfully!',
+            ];
+        }
+
+        // For show route
+        if ($routeName === 'products.show') {
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+                'price' => $this->price,
+            ];
+        }
+        if ($routeName === 'products.index') {
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+                'price' => $this->price,
+                'message' => 'Product retrieved successfully!',
+            ];
+        }
     }
-    if (in_array($routeName, ['products.index', 'products.show'])) {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'price' => $this->price,
-            'stock' => $this->stock,
-            'category' => $this->category ? $this->category->name : null,
-            'user' => $this->user ? $this->user->name : null,
-        ];
-    }
-}
 }

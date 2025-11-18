@@ -10,10 +10,6 @@ use App\Http\Resources\ProductResource;
 class ProductController extends Controller
 
 {
-    public function index(){
-        $products = Product::with('user:id,name')->get();
-        return ProductResource::collection($products);
-    }
    public function store(Request $request)
 {
     $data = $request->validate([
@@ -38,8 +34,10 @@ class ProductController extends Controller
         $product=Product::find($id);        
         if (!$product) 
             return response()->json(["error "=>"Product Not Found"],404);
-        return new ProductResource($product);
+            return new ProductResource($product); 
         }
+
+
         public function update(Request $request, $id)
 {
     $data = $request->validate([
@@ -53,13 +51,12 @@ class ProductController extends Controller
     if (!$product) {
         return response()->json(["error" => "Product not found"], 404);
     }
-
     $product->update($data);
 
     return response()->json([
         "success" => true,
         "message" => "Product updated successfully",
-        "data" => $product
+        "data" => new ProductResource($product),
     ],200);
 }
 
@@ -68,6 +65,10 @@ class ProductController extends Controller
         if (!$product) return response()->json(["Error"=> "Product Not Found"],404);
 
         $product->delete();
-        return response()->json(["success"=>true,"message"=>"Product Deleted"],200);
+        return response()->json(["success"=>true,"message"=>"Product Deleted"],200);        
     }
-} 
+    public function index(){
+        $products = Product::with('category','user')->get();
+        return ProductResource::collection($products);
+    }
+}   
