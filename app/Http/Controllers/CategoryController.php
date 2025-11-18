@@ -16,6 +16,8 @@ public function store(Request $request)
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
     ]);
+    $validatedData['user_id'] = auth()->id();  
+
     $category = Category::create($validatedData);
 
     return response()->json([
@@ -40,7 +42,7 @@ public function store(Request $request)
                 'success'=> true,
                 'message'=> 'Updated Successfully',
                 'data'=> $category
-                ],0);
+                ],200);
     }
     public function destroy($id){
         $category = Category::find($id);
@@ -50,4 +52,13 @@ public function store(Request $request)
             'message'=> 'Deleted Successfully'
             ],200);
     }       
+    public function show($id){
+        $category=Category::find($id);        
+        if (!$category) 
+            return response()->json(["error "=>"Category Not Found"],404);
+        return response()->json([
+            'success'=> true,
+            'data'=> $category
+            ],200);
+        }
 }
